@@ -32,5 +32,5 @@ def read_temp():
 	return temp_c
 
 print(read_temp())
-db.query('INSERT INTO temperature VALUES (, CURDATE(), CURTIME(), ' + "%.2f" % temp_c')')
+db.query("INSERT INTO temperature VALUES (, CURDATE(), CURTIME(), ' + "%.2f" % temp_c')")
 		 
