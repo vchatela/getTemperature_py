@@ -11,7 +11,7 @@ base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
-db=_mysql.connect(host=''localhost'',db=''temperature'', user= ''root'', passwd=''Oybocphideitevifoch0'')
+db=_mysql.connect(host=''88.142.52.11'',db=''temperature'', user= ''root'', passwd=''Oybocphideitevifoch0'')
 db.query=("""CREATE TABLE IF NOT EXISTS temperature (id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, date DATE NOT NULL DEFAULT '0000-00-00', heure TIME NOT NULL DEFAULT '00:00:00', temperature FLOAT)""")
 
 def read_temp_raw():
