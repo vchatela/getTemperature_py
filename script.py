@@ -13,6 +13,7 @@ device_file = device_folder + '/w1_slave'
 
 db=MySQLdb.connect(host="88.142.52.11",db="temperature", user= "root", passwd="Oybocphideitevifoch0")
 db.query=("CREATE TABLE IF NOT EXISTS temperature (id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, date DATE NOT NULL DEFAULT '0000-00-00', heure TIME NOT NULL DEFAULT '00:00:00', temperature FLOAT)")
+cur = db.cursor()
 
 def read_temp_raw():
 	f = open(device_file, 'r')
@@ -32,5 +33,5 @@ def read_temp():
 	return temp_c
 
 print(read_temp())
-db.query("INSERT INTO temperature VALUES (, CURDATE(), CURTIME(), ' + "%.2f" % temp_c')")
-		 
+#cur.execute("INSERT INTO temperature VALUES (, CURDATE(), CURTIME(), ' + "%.2f" % temp_c')")
+cur.execute("INSERT INTO temperature VALUES ( 1, CURDATE(), CURTIME(), 15)")	 
