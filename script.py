@@ -1,19 +1,15 @@
- 
-#!/usr/bin/python
+ #!/usr/bin/python
 import time
 import os
 import glob
-import MySQLdb
+import MySQLdb as mdb
+import sys
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 base_dir = '/sys/bus/w1/devices/'
-device_folder = glob.glob(base_dir + '28*')[0]
-device_file = device_folder + '/w1_slave'
-
-db=MySQLdb.connect(host="88.142.52.11",db="temperature", user= "root", passwd="Oybocphideitevifoch0")
-db.query=("CREATE TABLE IF NOT EXISTS temperature (id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, date DATE NOT NULL DEFAULT '0000-00-00', heure TIME NOT NULL DEFAULT '00:00:00', temperature FLOAT)")
-cur = db.cursor()
+#device_folder = glob.glob(base_dir + '28*')[0]
+#device_file = device_folder + '/w1_slave'
 
 def read_temp_raw():
 	f = open(device_file, 'r')
@@ -32,6 +28,29 @@ def read_temp():
 		temp_c = float(temp_string) / 1000.0
 	return temp_c
 
-print(read_temp())
-#cur.execute("INSERT INTO temperature VALUES (, CURDATE(), CURTIME(), ' + "%.2f" % temp_c')")
-cur.execute("INSERT INTO temperature VALUES ( 1, CURDATE(), CURTIME(), 15)")	 
+def add_temp(temp):
+	try:
+        	db=mdb.connect('localhost','userdist','123456', 'temperature');
+	        cur = db.cursor()
+        	print(db)
+	        print(cur)
+	        cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), CURRENT_TIME()+20000, %f)" %temp)
+       		db.commit()
+       		result = cur.fetchall()
+       		print result
+
+	except mdb.Error, e:
+        	print "Error %d: %s" % (e.args[0],e.args[1])
+	        sys.exit(1)
+
+	finally:
+		if db:
+			db.close()
+
+
+#Debut du codage !
+temp = float(read_temp())
+if !(temp > 0 and temp<35):
+	add_temp(temp)
+print(temp)
+
