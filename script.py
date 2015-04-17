@@ -8,8 +8,8 @@ import sys
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 base_dir = '/sys/bus/w1/devices/'
-#device_folder = glob.glob(base_dir + '28*')[0]
-#device_file = device_folder + '/w1_slave'
+device_folder = glob.glob(base_dir + '28*')[0]
+device_file = device_folder + '/w1_slave'
 
 def read_temp_raw():
 	f = open(device_file, 'r')
@@ -36,8 +36,8 @@ def add_temp(temp):
 	        print(cur)
 	        cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), CURRENT_TIME()+20000, %f)" %temp)
        		db.commit()
-       		result = cur.fetchall()
-       		print result
+#      		result = cur.fetchall()
+#      		print result
 
 	except mdb.Error, e:
         	print "Error %d: %s" % (e.args[0],e.args[1])
@@ -50,7 +50,8 @@ def add_temp(temp):
 
 #Debut du codage !
 temp = float(read_temp())
-if !(temp > 0 and temp<35):
-	add_temp(temp)
+add_temp(temp)
+#if not(temp > 0 and temp<35):
+#	add_temp(temp)
 print(temp)
 
