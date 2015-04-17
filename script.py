@@ -34,7 +34,7 @@ def add_temp(temp):
 	        cur = db.cursor()
         	print(db)
 	        print(cur)
-	        cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), CURRENT_TIME()+20000, %f)" %temp)
+	        cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), ((CURRENT_TIME()+20000)%24) , %f)" %temp)
        		db.commit()
 #      		result = cur.fetchall()
 #      		print result
