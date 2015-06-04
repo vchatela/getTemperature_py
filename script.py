@@ -32,9 +32,9 @@ def add_temp(temp):
 	try:
         	db=mdb.connect('localhost','userdist','123456', 'temperature');
 	        cur = db.cursor()
-        	print(db)
-	        print(cur)
-	        cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), ((CURRENT_TIME()+20000)%24) , %f)" %temp)
+        	#print(db)
+	        #print(cur)
+	        cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), (CURRENT_TIME()), %f)" %temp)
        		db.commit()
 #      		result = cur.fetchall()
 #      		print result
