@@ -1,5 +1,5 @@
 time
 os
 glob
-MySQLdb as mdb
+MySQLdb
 sys
