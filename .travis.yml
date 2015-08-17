@@ -12,7 +12,7 @@ python:
 install:
   - "pip install --upgrade pip"
   # Actually install our dependencies now
-  - "pip install -r requirements.txt"
+  #- "pip install -r requirements.txt"
 
 script: true
 addons:
@@ -23,8 +23,3 @@ addons:
     - glob
     - MySQLdb
     - sys
-#virtualenv:
-  #system_site_packages: true
-  
-before_install:
- - "sudo apt-get install -qq times os glob MySQLdb sys"
