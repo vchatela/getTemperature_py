@@ -4,7 +4,10 @@ import os
 import glob
 import MySQLdb as mdb
 import sys
+from file_save import *
 
+global login
+global password
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 base_dir = '/sys/bus/w1/devices/'
@@ -30,7 +33,7 @@ def read_temp():
 
 def add_temp(temp):
 	try:
-        	db=mdb.connect('localhost','userdist','123456', 'temperature');
+        	db=mdb.connect('localhost', login, password, 'temperature');
 	        cur = db.cursor()
         	#print(db)
 	        #print(cur)
