@@ -27,4 +27,4 @@ addons:
   #system_site_packages: true
   
 before_install:
-# - "sudo apt-get install -qq times os glob MySQLdb sys"
+ - "sudo apt-get install -qq times os glob MySQLdb sys"
