@@ -1,4 +1,4 @@
- #!/usr/bin/python
+﻿ #!/usr/bin/python
 import time
 import os
 import glob
@@ -13,6 +13,22 @@ os.system('modprobe w1-therm')
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
+
+dir_temp_file = '/var/www/files'
+
+refresh_time = 20;
+refresh_time_heater = 20;
+
+activated_file = dir_temp_file + '/activated_file'
+val_required_temp_file = dir_temp_file + '/val_required_temp_file'
+val_remaining_refresh_time_file = dir_temp_file + '/val_remaining_refresh_time_file'
+val_remaining_add_db_file = dir_temp_file + '/val_remaining_add_db_file'
+
+wiring_pin_rpi = 29
+action_command_turn_on = '/var/www/hcc/radioEmission '+wiring_pin_rpi+' 12325261 1 on'
+action_command_turn_off = '/var/www/hcc/radioEmission '+wiring_pin_rpi+' 12325261 1 off'
+
+
 
 def read_temp_raw():
 	f = open(device_file, 'r')
@@ -31,30 +47,66 @@ def read_temp():
 		temp_c = float(temp_string) / 1000.0
 	return temp_c
 
-def add_temp(temp):
+def add_temp_to_db(temp):
 	try:
-        	db=mdb.connect('localhost', login, password, 'temperature');
-	        cur = db.cursor()
-        	#print(db)
-	        #print(cur)
-	        cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), (CURRENT_TIME()), %f)" %temp)
-       		db.commit()
-#      		result = cur.fetchall()
-#      		print result
+			db=mdb.connect('localhost', login, password, 'temperature');
+			cur = db.cursor()
+			cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), (CURRENT_TIME()), %f)" %temp)
+			db.commit()
 
 	except mdb.Error, e:
-        	print "Error %d: %s" % (e.args[0],e.args[1])
-	        sys.exit(1)
+			print "Error %d: %s" % (e.args[0],e.args[1])
+			sys.exit(1)
 
 	finally:
 		if db:
 			db.close()
 
+def getValueFromFile(file):
+	f = open(file, 'r')
+	s = f.read()
+	f.close()
+	return s
 
-#Debut du codage !
-temp = float(read_temp())
-add_temp(temp)
-#if not(temp > 0 and temp<35):
-#	add_temp(temp)
-print(temp)
+def writeValueToFile(file, value):
+	f = open(file, 'w')
+	f.write(value)
+	f.close()
+	return 0
 
+############################################################
+#                   Main Program                           #
+############################################################
+
+# Get Temperature and store it each 20 minutes
+remaining_time = float(getValueFromFile(val_remaining_add_db_file))
+if(remaining_time==0):
+	temp = float(read_temp())
+	add_temp_to_db(temp)
+	writeValueToFile(val_remaining_add_db_file,refresh_time)
+else:
+	writeValueToFile(val_remaining_add_db_file,remaining_time-1)
+
+
+remaining_time_heater = float(getValueFromFile(val_remaining_refresh_time_file))
+if(remaining_time_heater==0):
+	# Get the activated boolean in file
+	s_activated = getValueFromFile(activated_file)
+	if s_activated=='true':
+		b_activated = True
+	else:
+		b_activated = False
+	# If activated check if heater is needed
+	if b_activated:
+	# Get val_temp_requiered in file
+		val_temp_required = float(getValueFromFile(val_required_temp_file))
+	# Maybe later use a state variable of the heater
+		if temp < val_temp_required:
+			#turn on heater
+			subprocess.call(action_command_turn_on)
+		else:
+			#turn off heater
+			subprocess.call(action_command_turn_off)
+	writeValueToFile(val_remaining_refresh_time_file,refresh_time_heater)
+else:
+	writeValueToFile(val_remaining_refresh_time_file,remaining_time_heater-1)
