@@ -16,7 +16,7 @@ device_file = device_folder + '/w1_slave'
 
 dir_temp_file = '/var/www/files'
 
-refresh_time = 20;
+refresh_time = 30;
 refresh_time_heater = 20;
 
 activated_file = dir_temp_file + '/activated_file'
@@ -64,14 +64,18 @@ def add_temp_to_db(temp):
 
 def getValueFromFile(file):
 	f = open(file, 'r')
+	#print "Opened : %s" %file
 	s = f.read()
 	f.close()
+	#print "Closed : %s \n\n" %file
 	return s
 
 def writeValueToFile(file, value):
 	f = open(file, 'w')
-	f.write(value)
+	#print "Opened : %s value %d " %(file,value)
+	f.write(str(value))
 	f.close()
+	#print "Closed : %s \n\n" %file
 	return 0
 
 ############################################################
@@ -79,13 +83,17 @@ def writeValueToFile(file, value):
 ############################################################
 
 # Get Temperature and store it each 20 minutes
+temp = float(read_temp())
+print "Current temperature : %f" %temp
+
 remaining_time = float(getValueFromFile(val_remaining_add_db_file))
 if(remaining_time==0):
-	temp = float(read_temp())
 	add_temp_to_db(temp)
 	writeValueToFile(val_remaining_add_db_file,refresh_time)
+	print "Updated remaining time DB : %d" %int(refresh_time)
 else:
 	writeValueToFile(val_remaining_add_db_file,remaining_time-1)
+	print "Updated remaining time DB : %d" %(int(remaining_time)-1)
 
 
 remaining_time_heater = float(getValueFromFile(val_remaining_refresh_time_file))
@@ -96,6 +104,7 @@ if(remaining_time_heater==0):
 		b_activated = True
 	else:
 		b_activated = False
+	print "Activated : %s " %(str(b_activated))
 	# If activated check if heater is needed
 	if b_activated:
 	# Get val_temp_requiered in file
@@ -103,10 +112,14 @@ if(remaining_time_heater==0):
 	# Maybe later use a state variable of the heater
 		if temp < val_temp_required:
 			#turn on heater
+			print "turn on heater"
 			subprocess.call(action_command_turn_on)
 		else:
 			#turn off heater
+			print "turn off heater"
 			subprocess.call(action_command_turn_off)
 	writeValueToFile(val_remaining_refresh_time_file,refresh_time_heater)
+	print "Updated remaining time heater %d " %int(refresh_time_heater)
 else:
 	writeValueToFile(val_remaining_refresh_time_file,remaining_time_heater-1)
+	print "Updated remaining time heater : %d " %(int(remaining_time_heater)-1)
