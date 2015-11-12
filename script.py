@@ -82,44 +82,48 @@ def writeValueToFile(file, value):
 #                   Main Program                           #
 ############################################################
 
-# Get Temperature and store it each 20 minutes
-temp = float(read_temp())
-print "Current temperature : %f" %temp
+def main():
+	# Get Temperature and store it each 20 minutes
+	temp = float(read_temp())
+	print "Current temperature : %f" %temp
 
-remaining_time = float(getValueFromFile(val_remaining_add_db_file))
-if(remaining_time==0):
-	add_temp_to_db(temp)
-	writeValueToFile(val_remaining_add_db_file,refresh_time)
-	print "Updated remaining time DB : %d" %int(refresh_time)
-else:
-	writeValueToFile(val_remaining_add_db_file,remaining_time-1)
-	print "Updated remaining time DB : %d" %(int(remaining_time)-1)
-
-
-remaining_time_heater = float(getValueFromFile(val_remaining_refresh_time_file))
-if(remaining_time_heater==0):
-	# Get the activated boolean in file
-	s_activated = getValueFromFile(activated_file)
-	if s_activated=='true':
-		b_activated = True
+	remaining_time = float(getValueFromFile(val_remaining_add_db_file))
+	if(remaining_time==0):
+		add_temp_to_db(temp)
+		writeValueToFile(val_remaining_add_db_file,refresh_time)
+		print "Updated remaining time DB : %d" %int(refresh_time)
 	else:
-		b_activated = False
-	print "Activated : %s " %(str(b_activated))
-	# If activated check if heater is needed
-	if b_activated:
-	# Get val_temp_requiered in file
-		val_temp_required = float(getValueFromFile(val_required_temp_file))
-	# Maybe later use a state variable of the heater
-		if temp < val_temp_required:
-			#turn on heater
-			print "turn on heater"
-			subprocess.call(action_command_turn_on)
+		writeValueToFile(val_remaining_add_db_file,remaining_time-1)
+		print "Updated remaining time DB : %d" %(int(remaining_time)-1)
+
+
+	remaining_time_heater = float(getValueFromFile(val_remaining_refresh_time_file))
+	if(remaining_time_heater==0):
+		# Get the activated boolean in file
+		s_activated = getValueFromFile(activated_file)
+		if s_activated=='true':
+			b_activated = True
 		else:
-			#turn off heater
-			print "turn off heater"
-			subprocess.call(action_command_turn_off)
-	writeValueToFile(val_remaining_refresh_time_file,refresh_time_heater)
-	print "Updated remaining time heater %d " %int(refresh_time_heater)
-else:
-	writeValueToFile(val_remaining_refresh_time_file,remaining_time_heater-1)
-	print "Updated remaining time heater : %d " %(int(remaining_time_heater)-1)
+			b_activated = False
+		print "Activated : %s " %(str(b_activated))
+		# If activated check if heater is needed
+		if b_activated:
+		# Get val_temp_requiered in file
+			val_temp_required = float(getValueFromFile(val_required_temp_file))
+		# Maybe later use a state variable of the heater
+			if temp < val_temp_required:
+				#turn on heater
+				print "turn on heater"
+				subprocess.call(action_command_turn_on)
+			else:
+				#turn off heater
+				print "turn off heater"
+				subprocess.call(action_command_turn_off)
+		writeValueToFile(val_remaining_refresh_time_file,refresh_time_heater)
+		print "Updated remaining time heater %d " %int(refresh_time_heater)
+	else:
+		writeValueToFile(val_remaining_refresh_time_file,remaining_time_heater-1)
+		print "Updated remaining time heater : %d " %(int(remaining_time_heater)-1)
+
+if __name__ == "__main__":
+    main()
