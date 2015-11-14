@@ -101,7 +101,7 @@ def main():
 	if(remaining_time_heater==0):
 		# Get the activated boolean in file
 		s_activated = getValueFromFile(activated_file)
-		if s_activated=='true':
+		if s_activated=='true' or s_activated=='True':
 			b_activated = True
 		else:
 			b_activated = False
