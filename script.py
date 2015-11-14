@@ -26,8 +26,8 @@ val_remaining_refresh_time_file = dir_temp_file + '/val_remaining_refresh_time_f
 val_remaining_add_db_file = dir_temp_file + '/val_remaining_add_db_file'
 
 wiring_pin_rpi = 29
-action_command_turn_on = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 on'
-action_command_turn_off = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 off'
+action_command_turn_on = '/var/www/hcc/radioEmission/'+str(wiring_pin_rpi)+' 12325261 1 on'
+action_command_turn_off = '/var/www/hcc/radioEmission/'+str(wiring_pin_rpi)+' 12325261 1 off'
 
 
 
@@ -115,11 +115,11 @@ def main():
 			if temp < val_temp_required:
 				#turn on heater
 				print "turn on heater"
-				subprocess.call(action_command_turn_on)
+				subprocess.call(action_command_turn_on, Shell=True)
 			else:
 				#turn off heater
 				print "turn off heater"
-				subprocess.call(action_command_turn_off)
+				subprocess.call(action_command_turn_off, Shell=True)
 		writeValueToFile(val_remaining_refresh_time_file,refresh_time_heater)
 		print "Updated remaining time heater %d " %int(refresh_time_heater)
 	else:
