@@ -115,11 +115,11 @@ def main():
 			if temp < val_temp_required:
 				#turn on heater
 				print "turn on heater"
-				subprocess.call(action_command_turn_on, Shell=True)
+				subprocess.call(action_command_turn_on, shell=True)
 			else:
 				#turn off heater
 				print "turn off heater"
-				subprocess.call(action_command_turn_off, Shell=True)
+				subprocess.call(action_command_turn_off, shell=True)
 		writeValueToFile(val_remaining_refresh_time_file,refresh_time_heater)
 		print "Updated remaining time heater %d " %int(refresh_time_heater)
 	else:
