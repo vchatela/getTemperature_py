@@ -18,7 +18,7 @@ device_file = device_folder + '/w1_slave'
 dir_temp_file = '/var/www/files'
 
 refresh_time = 30;
-refresh_time_heater = 20;
+refresh_time_heater = 10;
 
 activated_file = dir_temp_file + '/activated_file'
 val_required_temp_file = dir_temp_file + '/val_required_temp_file'
