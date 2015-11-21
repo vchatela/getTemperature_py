@@ -19,4 +19,5 @@ print "Activated = %s" %sys.argv[1]
 if sys.argv[1]=='False' or sys.argv[1]=='false' :
 	print "turn off heater" 
 	subprocess.call(action_command_turn_off, shell=True)
+	print "Write  False to the is_on_heater file"
 	writeValueToFile(is_on_heater,'False')
