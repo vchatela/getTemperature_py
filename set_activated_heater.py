@@ -11,6 +11,9 @@ global activated_file
 wiring_pin_rpi = 29
 action_command_turn_off = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 off'
 
+dir_temp_file = '/var/www/files'
+is_on_heater = dir_temp_file + '/is_on_heater'
+
 writeValueToFile(activated_file,sys.argv[1])
 print "Activated = %s" %sys.argv[1]
 if sys.argv[1]=='False' or sys.argv[1]=='false' :
