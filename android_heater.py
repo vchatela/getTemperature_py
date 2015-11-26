@@ -21,3 +21,6 @@ if sys.argv[2]=='False' or sys.argv[2]=='false' or sys.argv[2]=='True' or sys.ar
 	print "Set_activated_heater at %s \n" %sys.argv[2]
 else:
 	print "Error with parameter activated at : %s \n" %sys.argv[2]
+print"\n"
+print"###END OF SET_ACTIVATED_HEATER.py###"
+print"\n\n"
