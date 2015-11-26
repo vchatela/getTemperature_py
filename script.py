@@ -31,7 +31,6 @@ action_command_turn_on = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 123
 action_command_turn_off = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 off'
 
 
-
 def read_temp_raw():
 	f = open(device_file, 'r')
 	lines = f.readlines()
