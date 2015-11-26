@@ -16,7 +16,7 @@ writeValueToFile(activated_file,sys.argv[1])
 print "Write value %s to %s \n" %(sys.argv[1],activated_file)
 if sys.argv[1]=='False' or sys.argv[1]=='false' :
 	print "Turn off heater \n" 
-	subprocess.call(action_command_turn_off, shell=True)
+	subprocess.check_output(action_command_turn_off, shell=True)
 	print "Write False to the %s\n" %is_on_heater
 	writeValueToFile(is_on_heater,'False')
 print"\n"
