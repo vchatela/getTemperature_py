@@ -79,11 +79,24 @@ def writeValueToFile(file, value):
 	#print "Closed : %s \n\n" %file
 	return 0
 
+def turnOnHeater():
+	print "turn on heater"
+	subprocess.call(action_command_turn_on, shell=True)
+	writeValueToFile(is_on_heater,'True')
+
+def turnOffHeater():
+	print "turn off heater"
+	subprocess.call(action_command_turn_off, shell=True)
+	writeValueToFile(is_on_heater,'False')
+
 ############################################################
 #                   Main Program                           #
 ############################################################
 
 def main():
+	#If the heater is on but it should not be (activated_heater off and is_on_heater on)
+	if getValueFromFile(is_on_heater)==("true" or "True") and getValueFromFile(activated_file)==("false" or "False"):
+		turnOffHeater()
 	# Get Temperature and store it each 20 minutes
 	temp = float(read_temp())
 	print "Current temperature : %f" %temp
@@ -96,7 +109,6 @@ def main():
 	else:
 		writeValueToFile(val_remaining_add_db_file,remaining_time-1)
 		print "Updated remaining time DB : %d" %(int(remaining_time)-1)
-
 
 	remaining_time_heater = float(getValueFromFile(val_remaining_refresh_time_file))
 	if(remaining_time_heater==0):
@@ -114,14 +126,10 @@ def main():
 		# Maybe later use a state variable of the heater
 			if temp < val_temp_required:
 				#turn on heater
-				print "turn on heater"
-				subprocess.call(action_command_turn_on, shell=True)
-				writeValueToFile(is_on_heater,'True')
+				turnOnHeater()
 			else:
 				#turn off heater
-				print "turn off heater"
-				subprocess.call(action_command_turn_off, shell=True)
-				writeValueToFile(is_on_heater,'False')
+				turnOffHeater()
 		writeValueToFile(val_remaining_refresh_time_file,refresh_time_heater)
 		print "Updated remaining time heater %d " %int(refresh_time_heater)
 	else:
@@ -129,4 +137,4 @@ def main():
 		print "Updated remaining time heater : %d " %(int(remaining_time_heater)-1)
 
 if __name__ == "__main__":
-    main()
+	main()
