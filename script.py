@@ -94,8 +94,8 @@ def turnOffHeater():
 ############################################################
 
 def main():
-	#If the heater is on but it should not be (activated_heater off and is_on_heater on)
-	if getValueFromFile(is_on_heater)==("true" or "True") and getValueFromFile(activated_file)==("false" or "False"):
+	#If the heater it should not be activated - turn off (activated_heater off and is_on_heater on)
+	if getValueFromFile(activated_file)==("false" or "False"):
 		turnOffHeater()
 	# Get Temperature and store it each 20 minutes
 	temp = float(read_temp())
