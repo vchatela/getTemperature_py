@@ -3,7 +3,7 @@ import os
 import sys
 import subprocess
 
-from script import activated_file, writeValueToFile, val_required_temp_file,val_remaining_refresh_time_file, read_temp, turnOnHeater, turnOffHeater
+from script import activated_file, writeValueToFile, val_required_temp_file,val_remaining_refresh_time_file, read_temp, turnOnHeater, turnOffHeater, getValueFromFile
 
 def main():
 	# sys.argv[1] = temp   sys.argv[2] = activated
