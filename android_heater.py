@@ -18,7 +18,6 @@ if sys.argv[2].lower()==('false' or 'true'):
 	writeValueToFile(activated_file,sys.argv[2])
 	print "Write value %s to %s \n" %(sys.argv[2],activated_file)
 	if sys.argv[2].lower()=='false' :
-		print "Turn off heater \n" 
 		turnOffHeater()
 		print "Write False to the %s\n" %is_on_heater
 	else : 
@@ -29,10 +28,8 @@ if sys.argv[2].lower()==('false' or 'true'):
 		if temp < val_temp_required:
 			#turn on heater
 			turnOnHeater()
-			print "Turn on heater \n" 
 		else:
 			#turn off heater
 			turnOffHeater()
-			print "Turn off heater \n" 
 else:
 	print "Error with parameter activated at : %s \n" %sys.argv[2]
