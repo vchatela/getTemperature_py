@@ -5,6 +5,7 @@ import subprocess
 
 from script import activated_file, writeValueToFile, val_required_temp_file,val_remaining_refresh_time_file, read_temp
 
+wiring_pin_rpi = 29
 action_command_turn_on = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 on'
 action_command_turn_off = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 off'
 
