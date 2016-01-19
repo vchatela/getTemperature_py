@@ -14,9 +14,8 @@ def main():
 	writeValueToFile(val_remaining_refresh_time_file,0)
 	print "Restart counter of %s at 0 \n" %val_remaining_refresh_time_file
 	# start : set_activated_heater.py activated
-	if sys.argv[2].lower()==('false' or 'true'):
+	if sys.argv[2].lower()=='false' or sys.argv[2].lower()=='true':
 		print "Set_activated_heater at %s \n" %sys.argv[2]
-
 		writeValueToFile(activated_file,sys.argv[2])
 		print "Write value %s to %s \n" %(sys.argv[2],activated_file)
 		if sys.argv[2].lower()=='false' :
