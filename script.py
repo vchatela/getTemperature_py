@@ -24,7 +24,6 @@ activated_file = dir_temp_file + '/activated_file'
 val_required_temp_file = dir_temp_file + '/val_required_temp_file'
 val_remaining_refresh_time_file = dir_temp_file + '/val_remaining_refresh_time_file'
 val_remaining_add_db_file = dir_temp_file + '/val_remaining_add_db_file'
-is_on_heater = dir_temp_file + '/is_on_heater'
 
 wiring_pin_rpi = 29
 action_command_turn_on = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 on'
@@ -65,37 +64,31 @@ def add_temp_to_db(temp):
 
 def getValueFromFile(file):
 	f = open(file, 'r')
-	#print "Opened : %s" %file
 	s = f.read()
 	f.close()
-	#print "Closed : %s \n\n" %file
 	return s
 
 def writeValueToFile(file, value):
 	f = open(file, 'w')
-	#print "Opened : %s value %d " %(file,value)
 	f.write(str(value))
 	f.close()
-	#print "Closed : %s \n\n" %file
 	return 0
 
 def turnOnHeater():
 	print "turn on heater"
 	subprocess.call(action_command_turn_on, shell=True)
-	writeValueToFile(is_on_heater,'True')
 
 def turnOffHeater():
 	print "turn off heater"
 	subprocess.call(action_command_turn_off, shell=True)
-	writeValueToFile(is_on_heater,'False')
 
 ############################################################
 #                   Main Program                           #
 ############################################################
 
 def main():
-	#If the heater it should not be activated - turn off (activated_heater off and is_on_heater on)
-	if getValueFromFile(activated_file)==("false" or "False"):
+	#If the heater it should not be activated - turn off (activated_heater off)
+	if getValueFromFile(activated_file).lower()=="false":
 		turnOffHeater()
 	# Get Temperature and store it each 20 minutes
 	temp = float(read_temp())
@@ -114,7 +107,7 @@ def main():
 	if(remaining_time_heater==0):
 		# Get the activated boolean in file
 		s_activated = getValueFromFile(activated_file)
-		if s_activated=='true' or s_activated=='True':
+		if s_activated.lower()=='true':
 			b_activated = True
 		else:
 			b_activated = False
@@ -123,7 +116,6 @@ def main():
 		if b_activated:
 		# Get val_temp_requiered in file
 			val_temp_required = float(getValueFromFile(val_required_temp_file))
-		# Maybe later use a state variable of the heater
 			if temp < val_temp_required:
 				#turn on heater
 				turnOnHeater()
