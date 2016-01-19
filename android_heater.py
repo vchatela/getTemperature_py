@@ -7,6 +7,7 @@ from script import activated_file, writeValueToFile, val_required_temp_file,val_
 
 # sys.argv[1] = temp   sys.argv[2] = activated
 # update temp_file with temp
+print "Android_Heater.py \n"
 writeValueToFile(val_required_temp_file,sys.argv[1])
 print "Writed to %s value %s \n" %(val_required_temp_file,sys.argv[1]) 
 writeValueToFile(val_remaining_refresh_time_file,0)
@@ -19,7 +20,7 @@ if sys.argv[2].lower()==('false' or 'true'):
 	print "Write value %s to %s \n" %(sys.argv[2],activated_file)
 	if sys.argv[2].lower()=='false' :
 		turnOffHeater()
-		print "Write False to the %s\n" %is_on_heater
+		print "Write False to the %s \n" %is_on_heater
 	else : 
 		print "Test if need to turn on heater \n"
 		temp = float(read_temp())

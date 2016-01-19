@@ -55,7 +55,7 @@ def add_temp_to_db(temp):
 			db.commit()
 
 	except mdb.Error, e:
-			print "Error %d: %s" % (e.args[0],e.args[1])
+			print "Error %d: %s \n" % (e.args[0],e.args[1])
 			sys.exit(1)
 
 	finally:
@@ -75,11 +75,11 @@ def writeValueToFile(file, value):
 	return 0
 
 def turnOnHeater():
-	print "turn on heater"
+	print "turn on heater \n"
 	subprocess.call(action_command_turn_on, shell=True)
 
 def turnOffHeater():
-	print "turn off heater"
+	print "turn off heater \n"
 	subprocess.call(action_command_turn_off, shell=True)
 
 ############################################################
@@ -92,16 +92,16 @@ def main():
 		turnOffHeater()
 	# Get Temperature and store it each 20 minutes
 	temp = float(read_temp())
-	print "Current temperature : %f" %temp
+	print "Current temperature : %f \n" %temp
 
 	remaining_time = float(getValueFromFile(val_remaining_add_db_file))
 	if(remaining_time==0):
 		add_temp_to_db(temp)
 		writeValueToFile(val_remaining_add_db_file,refresh_time)
-		print "Updated remaining time DB : %d" %int(refresh_time)
+		print "Updated remaining time DB : %d \n" %int(refresh_time)
 	else:
 		writeValueToFile(val_remaining_add_db_file,remaining_time-1)
-		print "Updated remaining time DB : %d" %(int(remaining_time)-1)
+		print "Updated remaining time DB : %d \n" %(int(remaining_time)-1)
 
 	remaining_time_heater = float(getValueFromFile(val_remaining_refresh_time_file))
 	if(remaining_time_heater==0):
@@ -111,7 +111,7 @@ def main():
 			b_activated = True
 		else:
 			b_activated = False
-		print "Activated : %s " %(str(b_activated))
+		print "Activated : %s \n" %(str(b_activated))
 		# If activated check if heater is needed
 		if b_activated:
 		# Get val_temp_requiered in file
@@ -123,10 +123,10 @@ def main():
 				#turn off heater
 				turnOffHeater()
 		writeValueToFile(val_remaining_refresh_time_file,refresh_time_heater)
-		print "Updated remaining time heater %d " %int(refresh_time_heater)
+		print "Updated remaining time heater %d \n" %int(refresh_time_heater)
 	else:
 		writeValueToFile(val_remaining_refresh_time_file,remaining_time_heater-1)
-		print "Updated remaining time heater : %d " %(int(remaining_time_heater)-1)
+		print "Updated remaining time heater : %d \n" %(int(remaining_time_heater)-1)
 
 if __name__ == "__main__":
 	main()
