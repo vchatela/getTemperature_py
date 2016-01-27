@@ -49,9 +49,10 @@ def read_temp():
 
 def add_temp_to_db(temp):
 	try:
-			db=mdb.connect('localhost', login, password, 'temperature');
+			db=mdb.connect('localhost', login, password, 'temperature')
 			cur = db.cursor()
-			cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), (CURRENT_TIME()), %f)" %temp)
+			value = getValueFromFile(activated_file)
+			cur.execute("INSERT INTO Temperature VALUES (0, CURRENT_DATE(), (CURRENT_TIME()), %f, %s)" %(temp,value))
 			db.commit()
 
 	except mdb.Error, e:
