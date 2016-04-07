@@ -13,7 +13,6 @@ os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 base_dir = '/sys/bus/w1/devices/'
 nb_device = len(glob.glob(base_dir + '28*'))
-device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
 dir_temp_file = '/var/www/files'
@@ -91,12 +90,13 @@ def turnOffHeater():
 ############################################################
 
 def main():
-	if nb_device=0:
+	if nb_device==0:
 		#send notifcation
 		proc = subprocess.Popen(action_command_send + message_capteur, shell=True, stdout=subprocess.PIPE)
 		script_response = proc.stdout.read()
 		print script_response
 	else:
+		device_folder = glob.glob(base_dir + '28*')[0]
 		#If the heater it should not be activated - turn off (activated_heater off)
 		if getValueFromFile(activated_file).lower()=="false":
 			turnOffHeater()
