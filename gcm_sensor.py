@@ -1,6 +1,7 @@
 ﻿#!/usr/bin/python
 import subprocess 
- 
+import glob
+
 action_command_send = 'php gcm.php '
 message_capteur = '1'
 base_dir = '/sys/bus/w1/devices/'
