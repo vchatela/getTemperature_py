@@ -3,9 +3,7 @@ import subprocess
 import glob
 from script import getValueFromFile, activated_file
 
-action_command_send = 'php gcm.php '
-message_chauffage = '2'
-
+action_command_send = 'php ~/Script_python/gcm.php 0'
 ############################################################
 #                   Main Program                           #
 ############################################################
@@ -13,7 +11,7 @@ message_chauffage = '2'
 def main():
 	if getValueFromFile(activated_file).lower()=="true":
 		#send notifcation
-		proc = subprocess.Popen(action_command_send + message_chauffage, shell=True, stdout=subprocess.PIPE)
+		proc = subprocess.Popen(action_command_send, shell=True, stdout=subprocess.PIPE)
 		script_response = proc.stdout.read()
 		print script_response
 		
