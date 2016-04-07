@@ -28,8 +28,8 @@ wiring_pin_rpi = 29
 action_command_turn_on = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 on'
 action_command_turn_off = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 off'
 action_command_send = 'php gcm.php '
-message_chauffage = 'Chauffage toujours allumé !'
-message_capteur = 'Erreur du capteur'
+message_chauffage = '2'
+message_capteur = '1'
 	
 def read_temp_raw():
 	f = open(device_file, 'r')
