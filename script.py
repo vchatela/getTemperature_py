@@ -27,9 +27,7 @@ val_remaining_add_db_file = dir_temp_file + '/val_remaining_add_db_file'
 wiring_pin_rpi = 29
 action_command_turn_on = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 on'
 action_command_turn_off = '/var/www/hcc/radioEmission '+str(wiring_pin_rpi)+' 12325261 1 off'
-action_command_send = 'php gcm.php '
-message_chauffage = '2'
-message_capteur = '1'
+
 	
 def read_temp_raw():
 	f = open(device_file, 'r')
@@ -89,12 +87,7 @@ def turnOffHeater():
 ############################################################
 
 def main():
-	if nb_device==0:
-		#send notifcation
-		proc = subprocess.Popen(action_command_send + message_capteur, shell=True, stdout=subprocess.PIPE)
-		script_response = proc.stdout.read()
-		print script_response
-	else:
+	if nb_device>0:
 		device_folder = glob.glob(base_dir + '28*')[0]
 		device_file = device_folder + '/w1_slave'
 		#If the heater it should not be activated - turn off (activated_heater off)
