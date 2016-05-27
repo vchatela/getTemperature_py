@@ -33,8 +33,8 @@ def main():
     # the user seeing lots of unnecessary error
     # messages.
 
-	GPIO.add_event_detect(17, GPIO.FALLING, callback=sensorCallback1)
-	GPIO.add_event_detect(17, GPIO.RISING, callback=sensorCallback2)
+	GPIO.add_event_detect(2, GPIO.FALLING, callback=sensorCallback1)
+	GPIO.add_event_detect(2, GPIO.RISING, callback=sensorCallback2)
 
 	try:
 		# Loop until users quits with CTRL-C
