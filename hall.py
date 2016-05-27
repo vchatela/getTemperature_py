@@ -3,13 +3,15 @@ import RPi.GPIO as GPIO
 import time
 import datetime
 
+PIN = 27
+
 # Tell GPIO library to use GPIO references
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BCM) 
 
 print "Setup GPIO pin as input"
 
 # Set Switch GPIO as input
-GPIO.setup(2 , GPIO.IN)
+GPIO.setup(PIN , GPIO.IN) # GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 
 def sensorCallback1(channel):
@@ -33,17 +35,19 @@ def main():
     # the user seeing lots of unnecessary error
     # messages.
 
-	GPIO.add_event_detect(2, GPIO.FALLING, callback=sensorCallback1)
-	GPIO.add_event_detect(2, GPIO.RISING, callback=sensorCallback2)
+	#GPIO.add_event_detect(2, GPIO.FALLING, callback=sensorCallback1)
+	#GPIO.add_event_detect(2, GPIO.RISING, callback=sensorCallback2)
 
-	try:
+	#try:
 		# Loop until users quits with CTRL-C
-		while True:
-			time.sleep(0.1)
+	#	while True:
+	#		time.sleep(0.1)
 
-	except KeyboardInterrupt:
+	#except KeyboardInterrupt:
 		# Reset GPIO settings
-		GPIO.cleanup()
+	#	GPIO.cleanup()
+	print GPIO.input(PIN)
+	
 
 if __name__ == "__main__":
 	main()
